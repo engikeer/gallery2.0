@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul style="list-style-type:none">
+        {% for i in dir_names %}
+            <li>
+                <a href="/img?dir={{ i }}&page=1">{{ i }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>
