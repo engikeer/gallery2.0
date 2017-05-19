@@ -25,6 +25,7 @@ def get_menu():
     return render_template('menu.html', dir_names=dir_list)
 
 
+# test int
 @app.route("/img", methods=['GET'])
 def get_img():
     param = unquote(request.args['dir'])
