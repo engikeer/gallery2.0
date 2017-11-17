@@ -39,9 +39,13 @@ def get_img():
                 full_name = os.path.join(rel_dir, file_name)
                 img_list.append(full_name)
         break
-    print(img_list)
-    img_list.sort(key=lambda d: int(d.split('/')[-1].split('.')[0]))
-    # img_list.sort(key=lambda x: int(re.match('(\d+)\.jpg', x).group(1)))   # 根据数字排序
+
+    # img_list.sort(key=lambda d: int(d.split('/')[-1].split('.')[0]))
+
+    # 根据数字排序
+    img_list.sort(key=
+                  lambda x: int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(1)) * 10
+                            + int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(3)))
 
     print(img_list)
     search = False
