@@ -43,9 +43,11 @@ def get_img():
     # img_list.sort(key=lambda d: int(d.split('/')[-1].split('.')[0]))
 
     # 根据数字排序
+    # img_list.sort(key=
+    #               lambda x: int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(1)) * 100
+    #                         + int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(3)))
     img_list.sort(key=
-                  lambda x: int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(1)) * 10
-                            + int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(3)))
+                  lambda x: int(re.search(r'(\d+)\.jpg', x.split('/')[2]).group(1)))
 
     print(img_list)
     search = False
@@ -53,9 +55,9 @@ def get_img():
     if q:
         search = True
     page = request.args.get('page', type=int, default=1)
-    low = (page - 1) * 25
-    up = min(page * 25, len(img_list))
-    pagination = Pagination(page=page, total=len(img_list), per_page=25, search=search, record_name='img_list')
+    low = (page - 1) * 50
+    up = min(page * 50, len(img_list))
+    pagination = Pagination(page=page, total=len(img_list), per_page=50, search=search, record_name='img_list')
     return render_template('detail.html', img_names=img_list[low:up], title=param, pagination=pagination)
 
 
