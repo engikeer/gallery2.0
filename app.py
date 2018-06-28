@@ -28,11 +28,10 @@ def get_menu():
 @app.route("/img", methods=['GET'])
 def get_img():
     param = unquote(request.args['dir'])
-    page = request.args.get('page', type=int, default=1)
-    dir = 'static/gallery/' + param
+    abs_dir = 'static/gallery/' + param
     rel_dir = 'gallery/' + param
     img_list = []
-    for parent, dir_names, file_names in os.walk(dir):
+    for parent, dir_names, file_names in os.walk(abs_dir):
 
         for file_name in file_names:
             if 'jpg' in file_name.lower():
@@ -43,11 +42,10 @@ def get_img():
     # img_list.sort(key=lambda d: int(d.split('/')[-1].split('.')[0]))
 
     # 根据数字排序
-    # img_list.sort(key=
-    #               lambda x: int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(1)) * 100
-    #                         + int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(3)))
-    img_list.sort(key=
-                  lambda x: int(re.search(r'(\d+)\.jpg', x.split('/')[2]).group(1)))
+    img_list.sort(key=(
+        lambda x: int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(1)) * 1000
+                  + int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(3))))
+    # img_list.sort(key=lambda x: int(re.search(r'(\d+)\.jpg', x.split('/')[2]).group(1)))
 
     print(img_list)
     search = False
