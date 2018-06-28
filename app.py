@@ -16,9 +16,9 @@ mod = Blueprint('img_list', __name__)
 @app.route('/', methods=['GET'])
 def get_menu():
     # 返回目录名
-    root_dir = 'static/gallery'
+    rel_path = 'static/gallery'
     dir_list = []
-    for parent, dir_names, file_names in os.walk(root_dir):
+    for parent, dir_names, file_names in os.walk(get_abspath(rel_path)):
         dir_list = dir_names
         break
 
@@ -28,10 +28,10 @@ def get_menu():
 @app.route("/img", methods=['GET'])
 def get_img():
     param = unquote(request.args['dir'])
-    abs_dir = 'static/gallery/' + param
+    rel_path = 'static/gallery/' + param
     rel_dir = 'gallery/' + param
     img_list = []
-    for parent, dir_names, file_names in os.walk(abs_dir):
+    for parent, dir_names, file_names in os.walk(get_abspath(rel_path)):
 
         for file_name in file_names:
             if 'jpg' in file_name.lower():
@@ -57,6 +57,12 @@ def get_img():
     up = min(page * 50, len(img_list))
     pagination = Pagination(page=page, total=len(img_list), per_page=50, search=search, record_name='img_list')
     return render_template('detail.html', img_names=img_list[low:up], title=param, pagination=pagination)
+
+
+def get_abspath(rel_path):
+    abs_dir = os.path.split(os.path.abspath(__file__))[0]
+    path = os.path.join(abs_dir, rel_path)
+    return path
 
 
 if __name__ == '__main__':
