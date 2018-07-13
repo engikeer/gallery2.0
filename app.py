@@ -39,13 +39,8 @@ def get_img():
                 img_list.append(full_name)
         break
 
-    # img_list.sort(key=lambda d: int(d.split('/')[-1].split('.')[0]))
-
     # 根据数字排序
-    img_list.sort(key=(
-        lambda x: int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(1)) * 1000
-                  + int(re.match(r'(\d+)([^\d]+)(\d+)\.jpg', x.split('/')[2]).group(3))))
-    # img_list.sort(key=lambda x: int(re.search(r'(\d+)\.jpg', x.split('/')[2]).group(1)))
+    img_list.sort(key=sort_name)
 
     print(img_list)
     search = False
@@ -63,6 +58,13 @@ def get_abspath(rel_path):
     abs_dir = os.path.split(os.path.abspath(__file__))[0]
     path = os.path.join(abs_dir, rel_path)
     return path
+
+
+def sort_name(name):
+    name_elements = re.match(r'(\d+)([^\d]+)(\d+)\.jpg', name.split('/')[2])
+    first_num = int(name_elements.group(1))
+    second_num = int(name_elements.group(3))
+    return first_num * 1000 + second_num
 
 
 if __name__ == '__main__':
