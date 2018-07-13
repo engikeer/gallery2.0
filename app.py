@@ -50,8 +50,10 @@ def get_img():
     page = request.args.get('page', type=int, default=1)
     low = (page - 1) * 50
     up = min(page * 50, len(img_list))
-    pagination = Pagination(page=page, total=len(img_list), per_page=50, search=search, record_name='img_list')
-    return render_template('detail.html', img_names=img_list[low:up], title=param, pagination=pagination)
+    pagination = Pagination(page=page, total=len(img_list), per_page=50,
+                            search=search, record_name='img_list')
+    return render_template('detail.html', img_names=img_list[low:up],
+                           title=param, pagination=pagination)
 
 
 def get_abspath(rel_path):
