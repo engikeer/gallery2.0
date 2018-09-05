@@ -1,4 +1,5 @@
 import re
+import os
 from urllib.parse import unquote
 
 from flask import Flask
@@ -6,7 +7,7 @@ from flask import render_template
 from flask import request
 from flask import Blueprint
 from flask_paginate import Pagination
-import os
+
 
 app = Flask(__name__, static_url_path='')
 
@@ -18,7 +19,7 @@ def get_menu():
     # 返回目录名
     rel_path = 'static/gallery'
     dir_list = []
-    for parent, dir_names, file_names in os.walk(get_abspath(rel_path)):
+    for __, dir_names, __ in os.walk(get_abspath(rel_path)):
         dir_list = dir_names
         break
 
@@ -31,7 +32,7 @@ def get_img():
     rel_path = 'static/gallery/' + param
     rel_dir = 'gallery/' + param
     img_list = []
-    for parent, dir_names, file_names in os.walk(get_abspath(rel_path)):
+    for __, __, file_names in os.walk(get_abspath(rel_path)):
 
         for file_name in file_names:
             if 'jpg' in file_name.lower():
